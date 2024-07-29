@@ -3,7 +3,7 @@ import google.generativeai as genai
 
 app = Flask(__name__)
 
-# Your API key here
+
 api_key = 'AIzaSyBSdq4MXGKDJhKZ-NMC02xHt78W6v5Xv1I'
 genai.configure(api_key=api_key)
 
@@ -21,5 +21,5 @@ def generate():
     generated_text = response._result.candidates[0].content.parts[0].text
     return {'prompt': prompt, 'response': generated_text}
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
