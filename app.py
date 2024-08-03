@@ -21,5 +21,8 @@ def generate():
     generated_text = response._result.candidates[0].content.parts[0].text
     return {'prompt': prompt, 'response': generated_text}
 
+# Add RAG features in Aug 4th
+
+# Remember to comment this during productions
 # if __name__ == '__main__':
 #     app.run(debug=True)
