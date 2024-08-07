@@ -2,27 +2,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendBtn = document.getElementById('send-btn');
     const chatWindow = document.getElementById('chat-window');
     const promptInput = document.getElementById('prompt');
+    const pdfUpload = document.getElementById('pdf-upload');
 
     sendBtn.addEventListener('click', async () => {
+        const formData = new FormData();
         const prompt = promptInput.value;
+        const pdfFile = pdfUpload.files[0];
+        let userMessage = '';
+
         if (prompt) {
-            const userMessage = `<div class="user-message"><strong>You:</strong> ${prompt}</div>`;
+            formData.append('prompt', prompt);
+            userMessage += `<div class="user-message"><strong>You:</strong> ${prompt}</div>`;
+        }
+
+        if (pdfFile) {
+            formData.append('pdf', pdfFile);
+            userMessage += `<div class="user-message"><strong>You:</strong> (Document Attached)</div>`;
+        }
+
+        if (prompt || pdfFile) {
             chatWindow.innerHTML += userMessage;
-            promptInput.value = '';
 
             const response = await fetch('/generate', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ prompt: prompt }),
+                body: formData,
             });
 
-            const data = await response.json();
-            const formattedResponse = formatResponse(data.response);
-            const botMessage = `<div class="bot-message"><strong>Bot:</strong> ${formattedResponse}</div>`;
-            chatWindow.innerHTML += botMessage;
-            chatWindow.scrollTop = chatWindow.scrollHeight;
+            if (response.ok) {
+                const data = await response.json();
+                const botMessage = `<div class="bot-message"><strong>Bot:</strong> ${formatResponse(data.response)}</div>`;
+                chatWindow.innerHTML += botMessage;
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            } else {
+                const error = await response.json();
+                const errorMessage = `<div class="bot-message"><strong>Bot:</strong> ${error.error}</div>`;
+                chatWindow.innerHTML += errorMessage;
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+
+            promptInput.value = ''; // Clear the text input
+            pdfUpload.value = ''; // Clear the file input
         }
     });
 
