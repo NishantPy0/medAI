@@ -4,7 +4,7 @@ import google.generativeai as genai
 app = Flask(__name__)
 
 
-api_key = 'AIzaSyBSdq4MXGKDJhKZ-NMC02xHt78W6v5Xv1I'
+# api_key = 'AIzaSyBSdq4MXGKDJhKZ-NMC02xHt78W6v5Xv1I'
 genai.configure(api_key=api_key)
 
 model = genai.GenerativeModel('gemini-1.5-flash')
@@ -21,13 +21,8 @@ def generate():
     generated_text = response._result.candidates[0].content.parts[0].text
     return {'prompt': prompt, 'response': generated_text}
 
-<<<<<<< HEAD
-if __name__ == '__main__':
-    app.run(debug=True)
-=======
 # Add RAG features in Aug 4th
 
 # Remember to comment this during productions
 # if __name__ == '__main__':
-#     app.run(debug=True)
->>>>>>> 1517eee970c0cde9ddb3c6d99de250fdc966bcd7
+#     app.run(debug=True
