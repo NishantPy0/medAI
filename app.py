@@ -21,5 +21,5 @@ def generate():
     generated_text = response._result.candidates[0].content.parts[0].text
     return {'prompt': prompt, 'response': generated_text}
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
