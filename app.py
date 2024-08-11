@@ -50,5 +50,5 @@ def extract_text_from_pdf(pdf_path):
             text += page.extract_text()
         return text
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
